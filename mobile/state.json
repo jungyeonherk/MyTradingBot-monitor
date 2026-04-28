@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "ts": "2026-04-29T01:16:53.652113",
-  "ts_human": "2026-04-29 01:16:53",
+  "ts": "2026-04-29T01:17:23.963665",
+  "ts_human": "2026-04-29 01:17:23",
   "active": true,
   "sold": false,
   "mode": "모의투자",
@@ -25,7 +25,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 48786,
+    "secs_left": 48756,
     "passed": false
   },
   "target_reached_time": "",
@@ -719,17 +719,17 @@
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 6,
-      "last_push_secs_ago": 29,
+      "push_count": 7,
+      "last_push_secs_ago": 30,
       "github_ok": true
     },
     "trade_bot": {
       "state_file_exists": true,
       "state_file_age_secs": 0,
       "log_file_exists": true,
-      "log_file_age_secs": 90,
+      "log_file_age_secs": 120,
       "watchlist_exists": true,
-      "watchlist_age_secs": 5377,
+      "watchlist_age_secs": 5407,
       "bot_alive": true,
       "log_event_count": 211
     },
