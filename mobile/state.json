@@ -1,7 +1,7 @@
 {
   "version": "1.2",
-  "ts": "2026-04-29T01:38:09.009944",
-  "ts_human": "2026-04-29 01:38:09",
+  "ts": "2026-04-29T01:38:38.243553",
+  "ts_human": "2026-04-29 01:38:38",
   "today": "2026-04-29",
   "active": true,
   "sold": false,
@@ -26,7 +26,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 47510,
+    "secs_left": 47481,
     "passed": false
   },
   "target_reached_time": "",
@@ -203,8 +203,8 @@
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 8,
-      "last_push_secs_ago": 30,
+      "push_count": 9,
+      "last_push_secs_ago": 29,
       "github_ok": true
     },
     "trade_bot": {
@@ -212,9 +212,9 @@
       "state_file_age_secs": 0,
       "state_today": true,
       "log_file_exists": true,
-      "log_file_age_secs": 120,
+      "log_file_age_secs": 150,
       "watchlist_exists": true,
-      "watchlist_age_secs": 767,
+      "watchlist_age_secs": 796,
       "bot_alive": true,
       "log_event_count": 212,
       "today_event_count": 3
