@@ -1,7 +1,7 @@
 {
   "version": "1.1",
-  "ts": "2026-04-29T01:15:17.208034",
-  "ts_human": "2026-04-29 01:15:17",
+  "ts": "2026-04-29T01:15:23.327388",
+  "ts_human": "2026-04-29 01:15:23",
   "active": false,
   "sold": false,
   "mode": "모의투자",
@@ -25,7 +25,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 48882,
+    "secs_left": 48876,
     "passed": false
   },
   "target_reached_time": "",
@@ -165,6 +165,17 @@
     }
   ],
   "events": [
+    {
+      "ts": "2026-04-29T01:15:23.220407",
+      "time": "01:15:23",
+      "event": "SESSION_START",
+      "code": "",
+      "name": "",
+      "qty": 0,
+      "price": 0,
+      "pnl": 0,
+      "reason": ""
+    },
     {
       "ts": "2026-04-29T00:54:47.180564",
       "time": "00:54:47",
@@ -703,35 +714,24 @@
       "price": 0,
       "pnl": 0,
       "reason": ""
-    },
-    {
-      "ts": "2026-04-24T09:17:17.376727",
-      "time": "09:17:17",
-      "event": "BUY_PARTIAL",
-      "code": "066900",
-      "name": "디에이피",
-      "qty": 0,
-      "price": 0,
-      "pnl": 0,
-      "reason": ""
     }
   ],
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 2,
-      "last_push_secs_ago": 30,
+      "push_count": 3,
+      "last_push_secs_ago": 6,
       "github_ok": true
     },
     "trade_bot": {
       "state_file_exists": false,
       "state_file_age_secs": null,
       "log_file_exists": true,
-      "log_file_age_secs": 1230,
+      "log_file_age_secs": 0,
       "watchlist_exists": true,
-      "watchlist_age_secs": 5280,
-      "bot_alive": false,
-      "log_event_count": 210
+      "watchlist_age_secs": 5286,
+      "bot_alive": true,
+      "log_event_count": 211
     },
     "stages": [
       {
