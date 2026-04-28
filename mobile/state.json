@@ -1,7 +1,7 @@
 {
   "version": "1.2",
-  "ts": "2026-04-29T05:23:16.260687",
-  "ts_human": "2026-04-29 05:23:16",
+  "ts": "2026-04-29T05:23:46.353572",
+  "ts_human": "2026-04-29 05:23:46",
   "today": "2026-04-29",
   "active": false,
   "sold": false,
@@ -26,7 +26,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 34003,
+    "secs_left": 33973,
     "passed": false
   },
   "target_reached_time": "",
@@ -203,7 +203,7 @@
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 10,
+      "push_count": 11,
       "last_push_secs_ago": 30,
       "github_ok": true
     },
@@ -212,9 +212,9 @@
       "state_file_age_secs": null,
       "state_today": false,
       "log_file_exists": true,
-      "log_file_age_secs": 13628,
+      "log_file_age_secs": 13658,
       "watchlist_exists": true,
-      "watchlist_age_secs": 7311,
+      "watchlist_age_secs": 7341,
       "bot_alive": false,
       "log_event_count": 212,
       "today_event_count": 3
