@@ -1,10 +1,10 @@
 {
   "stage": "kiwoom_scan",
-  "progress": 0,
+  "progress": 10,
   "total": 50,
-  "percent": 0.0,
-  "message": "2차 스캔 시작 (키움)",
-  "ts": "2026-04-29T02:54:09.026308",
-  "ts_human": "02:54:09",
+  "percent": 20.0,
+  "message": "키움 진행 20.0%",
+  "ts": "2026-04-29T02:54:20.731584",
+  "ts_human": "02:54:20",
   "cmd_id": "cmd-1777398387828"
 }
