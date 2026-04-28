@@ -1,10 +1,10 @@
 {
-  "stage": "kiwoom_scan",
-  "progress": 35,
-  "total": 50,
-  "percent": 70.0,
-  "message": "키움 진행 70.0%",
-  "ts": "2026-04-29T02:30:37.679435",
-  "ts_human": "02:30:37",
+  "stage": "fetch_codes",
+  "progress": 0,
+  "total": 0,
+  "percent": 0,
+  "message": "종목 리스트 가져오는 중",
+  "ts": "2026-04-29T02:46:31.888124",
+  "ts_human": "02:46:31",
   "cmd_id": "cmd-1777398387828"
 }
