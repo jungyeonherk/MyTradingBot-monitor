@@ -1,8 +1,10 @@
 {
-  "cmd_id": "cmd-1777398387828",
-  "stage": "starting",
-  "mode": "full",
-  "ts": "2026-04-29T02:46:30.474027",
-  "ts_human": "02:46:30",
-  "message": "스캐너 시작 중..."
+  "stage": "kiwoom_scan",
+  "progress": 35,
+  "total": 50,
+  "percent": 70.0,
+  "message": "키움 진행 70.0%",
+  "ts": "2026-04-29T02:30:37.679435",
+  "ts_human": "02:30:37",
+  "cmd_id": "cmd-1777398387828"
 }
