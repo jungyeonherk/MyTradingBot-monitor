@@ -1,7 +1,7 @@
 {
   "version": "2.1",
-  "ts": "2026-04-29T00:54:19.735681",
-  "ts_human": "2026-04-29 00:54:19",
+  "ts": "2026-04-29T00:54:47.979476",
+  "ts_human": "2026-04-29 00:54:47",
   "active": false,
   "sold": false,
   "mode": "모의투자",
@@ -25,7 +25,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 50140,
+    "secs_left": 50112,
     "passed": false
   },
   "target_reached_time": "",
@@ -34,6 +34,17 @@
   "top5_target_pct": 0,
   "positions": [],
   "events": [
+    {
+      "ts": "2026-04-29T00:54:47.180564",
+      "time": "00:54:47",
+      "event": "SESSION_START",
+      "code": "",
+      "name": "",
+      "qty": 0,
+      "price": 0,
+      "pnl": 0,
+      "reason": ""
+    },
     {
       "ts": "2026-04-24T14:10:44.872029",
       "time": "14:10:44",
@@ -565,17 +576,6 @@
     {
       "ts": "2026-04-24T09:17:17.376727",
       "time": "09:17:17",
-      "event": "BUY_PARTIAL",
-      "code": "066900",
-      "name": "디에이피",
-      "qty": 0,
-      "price": 0,
-      "pnl": 0,
-      "reason": ""
-    },
-    {
-      "ts": "2026-04-24T09:17:14.951131",
-      "time": "09:17:14",
       "event": "BUY_PARTIAL",
       "code": "066900",
       "name": "디에이피",
