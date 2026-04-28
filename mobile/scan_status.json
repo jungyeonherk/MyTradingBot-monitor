@@ -1,10 +1,10 @@
 {
-  "stage": "fetch_codes",
+  "stage": "naver_scan",
   "progress": 0,
-  "total": 0,
-  "percent": 0,
-  "message": "종목 리스트 가져오는 중",
-  "ts": "2026-04-29T03:21:45.191306",
-  "ts_human": "03:21:45",
+  "total": 2604,
+  "percent": 0.0,
+  "message": "1차 스캔 시작",
+  "ts": "2026-04-29T03:21:58.684285",
+  "ts_human": "03:21:58",
   "cmd_id": "cmd-1777398387828"
 }
