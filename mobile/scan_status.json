@@ -1,11 +1,11 @@
 {
   "stage": "naver_scan",
-  "progress": 950,
+  "progress": 1000,
   "total": 2604,
-  "percent": 36.5,
-  "message": "진행 36.5% — 후보 86",
-  "ts": "2026-04-29T02:49:37.375822",
-  "ts_human": "02:49:37",
-  "candidates": 86,
+  "percent": 38.4,
+  "message": "진행 38.4% — 후보 92",
+  "ts": "2026-04-29T02:49:46.979215",
+  "ts_human": "02:49:46",
+  "candidates": 92,
   "cmd_id": "cmd-1777398387828"
 }
