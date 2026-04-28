@@ -1,11 +1,10 @@
 {
-  "stage": "naver_scan",
-  "progress": 2550,
-  "total": 2604,
-  "percent": 97.9,
-  "message": "진행 97.9% — 후보 206",
-  "ts": "2026-04-29T02:29:56.810261",
-  "ts_human": "02:29:56",
-  "candidates": 206,
+  "stage": "kiwoom_scan",
+  "progress": 0,
+  "total": 50,
+  "percent": 0.0,
+  "message": "2차 스캔 시작 (키움)",
+  "ts": "2026-04-29T02:30:05.752975",
+  "ts_human": "02:30:05",
   "cmd_id": "cmd-1777396430530"
 }
