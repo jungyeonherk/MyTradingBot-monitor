@@ -1,8 +1,10 @@
 {
-  "cmd_id": "cmd-1777396109173",
-  "stage": "starting",
-  "mode": "full",
-  "ts": "2026-04-29T02:12:44.808704",
-  "ts_human": "02:12:44",
-  "message": "스캐너 시작 중..."
+  "stage": "error",
+  "progress": 0,
+  "total": 0,
+  "percent": 0,
+  "message": "UnicodeEncodeError: 'cp949' codec can't encode character '\\U0001f4e1' in position 2: illegal multibyte sequence",
+  "ts": "2026-04-29T02:08:36.107682",
+  "ts_human": "02:08:36",
+  "cmd_id": "cmd-1777396109173"
 }
