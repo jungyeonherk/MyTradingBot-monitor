@@ -1,7 +1,7 @@
 {
-  "version": "2.1",
-  "ts": "2026-04-29T00:56:21.276752",
-  "ts_human": "2026-04-29 00:56:21",
+  "version": "1.1",
+  "ts": "2026-04-29T01:12:04.556161",
+  "ts_human": "2026-04-29 01:12:04",
   "active": true,
   "sold": false,
   "mode": "모의투자",
@@ -25,7 +25,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 50018,
+    "secs_left": 49075,
     "passed": false
   },
   "target_reached_time": "",
@@ -715,5 +715,63 @@
       "pnl": 0,
       "reason": ""
     }
-  ]
+  ],
+  "system_status": {
+    "sync": {
+      "running": true,
+      "push_count": 0,
+      "last_push_secs_ago": 0,
+      "github_ok": true
+    },
+    "trade_bot": {
+      "state_file_exists": true,
+      "state_file_age_secs": 944,
+      "log_file_exists": true,
+      "log_file_age_secs": 1037,
+      "watchlist_exists": true,
+      "watchlist_age_secs": 5088,
+      "bot_alive": false,
+      "log_event_count": 210
+    },
+    "stages": [
+      {
+        "key": "kiwoom",
+        "label": "키움 로그인",
+        "done": true,
+        "detail": ""
+      },
+      {
+        "key": "watchlist",
+        "label": "감시종목 로드",
+        "done": true,
+        "detail": "10종목"
+      },
+      {
+        "key": "active",
+        "label": "매매 활성화",
+        "done": true,
+        "detail": "진행중"
+      },
+      {
+        "key": "buying",
+        "label": "매수 진행",
+        "done": true,
+        "ts": "14:08:30",
+        "detail": "체결중"
+      },
+      {
+        "key": "monitoring",
+        "label": "목표 +1.6% 감시",
+        "done": true,
+        "detail": "감시중"
+      },
+      {
+        "key": "liquidate",
+        "label": "14:50 강제청산",
+        "done": true,
+        "ts": "14:10:44",
+        "detail": "완료"
+      }
+    ]
+  }
 }
