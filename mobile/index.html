@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0E0F13">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JST">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>⚡ JST 매매 모니터</title>
+  <style>
+    /* ═══════════════════ Toss 디자인 토큰 ═══════════════════ */
+    :root {
+      --bg-1: #0E0F13;
+      --bg-2: #1B1D24;
+      --bg-3: #252830;
+      --bg-hover: #2D313C;
+      --border: #2A2D36;
+      --text-1: #FFFFFF;
+      --text-2: #D1D5DB;
+      --text-3: #9CA3AF;
+      --text-4: #6B7280;
+      --blue:   #3182F6;
+      --green:  #3CD4A0;
+      --red:    #F04452;
+      --yellow: #FFBC00;
+      --up:     #F04452;   /* 한국 주식 관습: 상승=빨강 */
+      --down:   #3182F6;   /* 하락=파랑 */
+      --radius-sm: 8px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --safe-top: env(safe-area-inset-top, 0);
+      --safe-bot: env(safe-area-inset-bottom, 0);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg-1);
+      color: var(--text-2);
+      font-family: -apple-system, 'SF Pro Display', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: calc(var(--safe-top) + 8px) 16px calc(var(--safe-bot) + 16px);
+      max-width: 720px;
+      margin: 0 auto;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════ 헤더 ═══════════════════ */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 4px 2px;
+    }
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+    }
+    .brand .bolt { color: var(--yellow); }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--text-3);
+    }
+    .status-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .status-pill.offline .dot { background: var(--red); animation: none; }
+    .status-pill.idle .dot { background: var(--text-4); animation: none; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ═══════════════════ 카드 공통 ═══════════════════ */
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-3);
+      margin-bottom: 10px;
+      letter-spacing: -0.2px;
+    }
+
+    /* ═══════════════════ 손익 요약 (히어로) ═══════════════════ */
+    .hero {
+      padding: 20px 18px;
+    }
+    .hero .label-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .hero .label {
+      font-size: 12px; color: var(--text-3); font-weight: 600;
+    }
+    .hero .mode-badge {
+      font-size: 10px; padding: 3px 8px; border-radius: 6px;
+      background: var(--bg-3); color: var(--text-3); font-weight: 600;
+    }
+    .hero .mode-badge.real { background: rgba(240,68,82,0.12); color: var(--red); }
+    .hero .mode-badge.sim  { background: rgba(60,212,160,0.12); color: var(--green); }
+    .hero .amount {
+      font-size: 32px; font-weight: 800;
+      color: var(--text-1);
+      letter-spacing: -0.8px;
+      margin: 4px 0 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero .pl {
+      font-size: 16px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero .pl.up   { color: var(--up); }
+    .hero .pl.down { color: var(--down); }
+    .hero .pl.flat { color: var(--text-2); }
+    .hero .meta {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .hero .meta-item .v {
+      font-size: 14px; font-weight: 700; color: var(--text-1);
+    }
+    .hero .meta-item .k {
+      font-size: 10px; color: var(--text-4); margin-top: 2px;
+    }
+    .hero .target-banner {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px; font-weight: 600;
+      text-align: center;
+    }
+    .target-banner.achieved {
+      background: rgba(60,212,160,0.12);
+      color: var(--green);
+      border: 1px solid rgba(60,212,160,0.25);
+    }
+    .target-banner.stoploss {
+      background: rgba(240,68,82,0.12);
+      color: var(--red);
+      border: 1px solid rgba(240,68,82,0.25);
+    }
+
+    /* ═══════════════════ 카운트다운 ═══════════════════ */
+    .countdown {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+    }
+    .countdown .left { font-size: 12px; color: var(--text-3); }
+    .countdown .left b { display: block; color: var(--text-1); font-size: 13px; margin-bottom: 2px; }
+    .countdown .timer {
+      font-size: 22px; font-weight: 800; color: var(--text-1);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.5px;
+    }
+    .countdown.urgent .timer { color: var(--red); }
+    .countdown.passed .timer { color: var(--text-4); font-size: 14px; }
+
+    /* ═══════════════════ 포지션 리스트 ═══════════════════ */
+    .pos-list .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .pos-list .row:last-child { border-bottom: none; }
+    .pos-list .name {
+      font-size: 14px; font-weight: 700; color: var(--text-1);
+      letter-spacing: -0.2px;
+    }
+    .pos-list .code {
+      font-size: 10px; color: var(--text-4);
+      margin-left: 6px; font-weight: 500;
+    }
+    .pos-list .meta {
+      font-size: 11px; color: var(--text-3);
+      font-variant-numeric: tabular-nums;
+    }
+    .pos-list .meta .sep { color: var(--text-4); margin: 0 4px; }
+    .pos-list .right { text-align: right; }
+    .pos-list .price {
+      font-size: 14px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-1);
+    }
+    .pos-list .pct {
+      font-size: 12px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .pos-list .pct.up   { color: var(--up); }
+    .pos-list .pct.down { color: var(--down); }
+    .pos-list .pct.flat { color: var(--text-3); }
+    .pos-list .badge {
+      display: inline-block;
+      font-size: 9px; font-weight: 700;
+      padding: 2px 6px; border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .badge.HOLD  { background: rgba(49,130,246,0.15);  color: #5B9DF9; }
+    .badge.SOLD  { background: rgba(60,212,160,0.15);  color: var(--green); }
+    .badge.WATCH { background: var(--bg-3);            color: var(--text-3); }
+    .badge.BUYING, .badge.SELLING { background: rgba(255,188,0,0.15); color: var(--yellow); }
+    .pos-list .signals {
+      grid-column: 1 / -1;
+      font-size: 10px; color: var(--text-4);
+      margin-top: 2px;
+    }
+    .pos-list .empty {
+      padding: 28px 0; text-align: center; color: var(--text-4);
+      font-size: 12px;
+    }
+
+    /* ═══════════════════ 이벤트 로그 ═══════════════════ */
+    .events .ev {
+      display: grid;
+      grid-template-columns: 50px 60px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .events .ev:last-child { border-bottom: none; }
+    .events .ev .t { color: var(--text-4); font-variant-numeric: tabular-nums; }
+    .events .ev .e { font-weight: 700; font-size: 11px; }
+    .events .ev .e.BUY      { color: var(--up); }
+    .events .ev .e.SELL     { color: var(--down); }
+    .events .ev .e.LIQ      { color: var(--yellow); }
+    .events .ev .e.FAIL     { color: var(--red); }
+    .events .ev .e.RETRY    { color: var(--text-3); }
+    .events .ev .e.OTHER    { color: var(--text-3); }
+    .events .ev .nm {
+      color: var(--text-2); white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .events .ev .pn { color: var(--text-3); font-variant-numeric: tabular-nums; }
+    .events .ev .pn.up   { color: var(--up); }
+    .events .ev .pn.down { color: var(--down); }
+    .events .empty { padding: 20px 0; text-align: center; color: var(--text-4); font-size: 12px; }
+
+    /* ═══════════════════ 풋터 ═══════════════════ */
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-4);
+    }
+    .footer .updated {
+      font-variant-numeric: tabular-nums;
+    }
+    .footer .stale { color: var(--yellow); }
+
+    /* ═══════════════════ 토큰 입력 모달 ═══════════════════ */
+    .modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 99;
+      padding: 20px;
+    }
+    .modal-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .modal-card h2 { margin: 0 0 6px; font-size: 16px; color: var(--text-1); }
+    .modal-card p  { margin: 0 0 14px; font-size: 12px; color: var(--text-3); line-height: 1.5; }
+    .modal-card input[type=text] {
+      width: 100%;
+      background: var(--bg-3); border: 1px solid var(--border);
+      color: var(--text-1); padding: 10px 12px;
+      border-radius: var(--radius-sm); font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .modal-card input:focus { outline: none; border-color: var(--blue); }
+    .modal-card button {
+      width: 100%;
+      background: var(--blue); color: white;
+      border: none; padding: 10px 14px;
+      border-radius: var(--radius-sm); font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+    .modal-card .hint { font-size: 11px; color: var(--text-4); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="brand"><span class="bolt">⚡</span> JST</div>
+    <div id="status" class="status-pill idle"><span class="dot"></span><span class="text">대기</span></div>
+  </div>
+
+  <!-- 손익 요약 -->
+  <div class="card hero" id="hero">
+    <div class="label-row">
+      <span class="label">평가금액</span>
+      <span id="mode-badge" class="mode-badge">─</span>
+    </div>
+    <div class="amount" id="cur-amt">─</div>
+    <div class="pl flat" id="pl">손익을 기다리는 중...</div>
+    <div id="target-banner"></div>
+    <div class="meta">
+      <div class="meta-item"><div class="v" id="m-buy">─</div><div class="k">투자원금</div></div>
+      <div class="meta-item"><div class="v" id="m-pos">─</div><div class="k">보유/매도/감시</div></div>
+      <div class="meta-item"><div class="v" id="m-acc">─</div><div class="k">계좌</div></div>
+    </div>
+  </div>
+
+  <!-- 카운트다운 -->
+  <div class="card countdown" id="countdown">
+    <div class="left">
+      <b>강제청산까지</b>
+      <span>14:50 KST</span>
+    </div>
+    <div class="timer" id="timer">─</div>
+  </div>
+
+  <!-- 포지션 -->
+  <div class="card">
+    <div class="card-title">📊 포지션 <span id="pos-count" style="color:var(--text-4); font-weight:500;"></span></div>
+    <div class="pos-list" id="positions"><div class="empty">로딩중...</div></div>
+  </div>
+
+  <!-- 이벤트 로그 -->
+  <div class="card">
+    <div class="card-title">📜 최근 이벤트 <span id="ev-count" style="color:var(--text-4); font-weight:500;"></span></div>
+    <div class="events" id="events"><div class="empty">로딩중...</div></div>
+  </div>
+
+  <!-- 풋터 -->
+  <div class="footer">
+    <div class="updated"><span id="upd">─</span></div>
+    <div style="margin-top:4px;">JST Mobile v1.0 · 3초 폴링</div>
+    <div style="margin-top:4px;"><a href="#" id="reset-config" style="color:var(--text-4); font-size:10px;">설정 변경</a></div>
+  </div>
+
+  <!-- 첫 진입 시 GitHub 정보 입력 -->
+  <div id="setup-modal" class="modal" style="display:none;">
+    <div class="modal-card">
+      <h2>⚡ JST Mobile</h2>
+      <p>GitHub 사용자명/저장소명을 입력하면<br>매매 상태를 실시간으로 확인할 수 있습니다.</p>
+      <input type="text" id="cfg-user"   placeholder="GitHub 사용자명 (예: gur0663)">
+      <input type="text" id="cfg-repo"   placeholder="저장소명 (예: MyTradingBot-monitor)">
+      <input type="text" id="cfg-branch" placeholder="브랜치 (기본: main)" value="main">
+      <button onclick="saveConfig()">시작하기</button>
+      <div class="hint">정보는 휴대폰에만 저장되며 외부로 전송되지 않습니다.</div>
+    </div>
+  </div>
+
+  <script>
+  // ═══════════════════ 설정 ═══════════════════
+  const POLL_INTERVAL = 3000;     // 3초
+  const STALE_THRESHOLD = 60;     // 60초 이상 업데이트 없으면 stale 표시
+
+  function loadCfg() {
+    return {
+      user:   localStorage.getItem("jst_user")   || "",
+      repo:   localStorage.getItem("jst_repo")   || "",
+      branch: localStorage.getItem("jst_branch") || "main",
+    };
+  }
+
+  function saveConfig() {
+    const u = document.getElementById("cfg-user").value.trim();
+    const r = document.getElementById("cfg-repo").value.trim();
+    const b = document.getElementById("cfg-branch").value.trim() || "main";
+    if (!u || !r) { alert("사용자명과 저장소명을 입력하세요."); return; }
+    localStorage.setItem("jst_user", u);
+    localStorage.setItem("jst_repo", r);
+    localStorage.setItem("jst_branch", b);
+    document.getElementById("setup-modal").style.display = "none";
+    fetchAndRender();
+  }
+
+  document.getElementById("reset-config").addEventListener("click", e => {
+    e.preventDefault();
+    if (confirm("설정을 다시 입력하시겠습니까?")) {
+      localStorage.clear();
+      location.reload();
+    }
+  });
+
+  // ═══════════════════ 포맷터 ═══════════════════
+  const fmtKRW  = v => v ? Math.round(v).toLocaleString() : "0";
+  const fmtPct  = v => (v >= 0 ? "+" : "") + (v||0).toFixed(2) + "%";
+  const fmtTime = ts => ts ? ts.split("T")[1]?.split(".")[0]?.slice(0,5) || "─" : "─";
+  const upDownClass = v => v > 0 ? "up" : v < 0 ? "down" : "flat";
+  const sign = v => v > 0 ? "▲" : v < 0 ? "▼" : "─";
+
+  function eventBadge(ev) {
+    const e = (ev || "").toUpperCase();
+    if (e.includes("BUY"))      return "BUY";
+    if (e.includes("SELL"))     return "SELL";
+    if (e.includes("LIQ"))      return "LIQ";
+    if (e.includes("FAIL"))     return "FAIL";
+    if (e.includes("RETRY"))    return "RETRY";
+    return "OTHER";
+  }
+
+  function eventLabel(ev) {
+    const map = {
+      "BUY_FILLED":  "매수체결",
+      "SELL_FILLED": "매도체결",
+      "ORDER_SENT":  "주문전송",
+      "ORDER_FAIL":  "주문실패",
+      "ORDER_RETRY": "재시도",
+      "PARTIAL_FILL":"부분체결",
+      "LIQUIDATE_START": "청산시작",
+      "FORCE_LIQUIDATE": "강제청산",
+    };
+    return map[ev] || ev || "";
+  }
+
+  // ═══════════════════ 렌더 ═══════════════════
+  let lastTs = 0;
+
+  function setStatus(state, text) {
+    const el = document.getElementById("status");
+    el.className = "status-pill " + state;
+    el.querySelector(".text").textContent = text;
+  }
+
+  function renderHero(s) {
+    const sm = s.summary || {};
+    const isUp = sm.pl > 0, isDown = sm.pl < 0;
+    const cls = isUp ? "up" : isDown ? "down" : "flat";
+
+    document.getElementById("cur-amt").textContent = "₩ " + fmtKRW(sm.cur_amt);
+
+    const plEl = document.getElementById("pl");
+    plEl.className = "pl " + cls;
+    if (sm.buy_amt > 0) {
+      plEl.textContent = `${sign(sm.pl)} ${fmtKRW(Math.abs(sm.pl))}원 (${fmtPct(sm.pl_pct)})`;
+    } else {
+      plEl.textContent = "포지션 없음";
+    }
+
+    const mb = document.getElementById("mode-badge");
+    mb.textContent = s.mode || "─";
+    mb.className = "mode-badge " + (s.mode === "모의투자" ? "sim" : s.mode === "실전투자" ? "real" : "");
+
+    document.getElementById("m-buy").textContent = sm.buy_amt ? fmtKRW(sm.buy_amt) : "─";
+    document.getElementById("m-pos").textContent = `${sm.holding||0}/${sm.sold_count||0}/${sm.watch||0}`;
+    document.getElementById("m-acc").textContent = s.account || "─";
+
+    // 타겟 배너
+    const banner = document.getElementById("target-banner");
+    banner.innerHTML = "";
+    banner.className = "";
+    if (sm.achieved) {
+      banner.className = "target-banner achieved";
+      banner.textContent = `🎯 목표 ${sm.target_pct}% 달성됨`;
+      if (s.target_reached_time) banner.textContent += ` · ${s.target_reached_time}`;
+    } else if (sm.stoploss_hit) {
+      banner.className = "target-banner stoploss";
+      banner.textContent = `⚠ 손절 ${sm.stoploss_pct}% 도달`;
+      if (s.top10_sl_time) banner.textContent += ` · ${s.top10_sl_time}`;
+    }
+  }
+
+  function renderCountdown(s) {
+    const fl = s.force_liquidate || {};
+    const el = document.getElementById("countdown");
+    const timer = document.getElementById("timer");
+    if (fl.passed) {
+      el.className = "card countdown passed";
+      timer.textContent = "장 마감";
+    } else {
+      const secs = fl.secs_left || 0;
+      const h = Math.floor(secs / 3600);
+      const m = Math.floor((secs % 3600) / 60);
+      const sec = secs % 60;
+      timer.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+      el.className = "card countdown" + (secs < 600 ? " urgent" : "");
+    }
+  }
+
+  function renderPositions(s) {
+    const positions = s.positions || [];
+    const cont = document.getElementById("positions");
+    document.getElementById("pos-count").textContent = positions.length ? `(${positions.length})` : "";
+
+    if (!positions.length) {
+      cont.innerHTML = '<div class="empty">감시종목이 없습니다</div>';
+      return;
+    }
+
+    cont.innerHTML = positions.map(p => {
+      const cls = upDownClass(p.pl_pct);
+      const meta = [];
+      if (p.qty > 0) {
+        meta.push(`${p.qty.toLocaleString()}주`);
+        meta.push(`매입 ${fmtKRW(p.buy)}`);
+      } else {
+        meta.push(`<span style="color:var(--text-4)">미체결</span>`);
+        if (p.score) meta.push(`점수 ${p.score}`);
+      }
+      const status = p.status || "WATCH";
+      return `
+        <div class="row">
+          <div>
+            <span class="name">${p.name || "─"}</span>
+            <span class="code">${p.code}</span>
+            <span class="badge ${status}">${status}</span>
+            <div class="meta">${meta.join('<span class="sep">·</span>')}</div>
+            ${p.signals ? `<div class="signals">${p.signals}</div>` : ""}
+          </div>
+          <div class="right">
+            <div class="price">${fmtKRW(p.cur)}</div>
+            ${p.qty > 0 ? `<div class="pct ${cls}">${sign(p.pl_pct)} ${fmtPct(p.pl_pct)}</div>` : ""}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderEvents(s) {
+    const events = s.events || [];
+    const cont = document.getElementById("events");
+    document.getElementById("ev-count").textContent = events.length ? `(${events.length})` : "";
+
+    if (!events.length) {
+      cont.innerHTML = '<div class="empty">아직 이벤트가 없습니다</div>';
+      return;
+    }
+
+    cont.innerHTML = events.slice(0, 30).map(ev => {
+      const badge = eventBadge(ev.event);
+      const label = eventLabel(ev.event);
+      const t = (ev.time || "").slice(0, 5);
+      const nm = ev.name ? `${ev.name}` : (ev.code || "");
+      let detail = "";
+      if (ev.qty && ev.price) detail = `${ev.qty}주 @ ${fmtKRW(ev.price)}`;
+      else if (ev.reason)     detail = ev.reason;
+
+      let pnHtml = "";
+      if (ev.pnl) {
+        pnHtml = `<span class="pn ${upDownClass(ev.pnl)}">${sign(ev.pnl)} ${fmtKRW(Math.abs(ev.pnl))}</span>`;
+      }
+
+      return `
+        <div class="ev">
+          <span class="t">${t}</span>
+          <span class="e ${badge}">${label}</span>
+          <span class="nm">${nm}<br><span style="font-size:10px;color:var(--text-4)">${detail}</span></span>
+          ${pnHtml}
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderFooter(s, now) {
+    const upd = document.getElementById("upd");
+    const ts = new Date(s.ts || 0);
+    const diff = (now - ts.getTime()) / 1000;
+    const tt = s.ts_human || ts.toLocaleString("ko-KR");
+    if (diff > STALE_THRESHOLD) {
+      upd.className = "stale";
+      upd.textContent = `⚠ 마지막 업데이트: ${tt} (${Math.floor(diff)}초 전 — sync 멈춤?)`;
+    } else {
+      upd.className = "";
+      upd.textContent = `마지막 업데이트: ${tt}`;
+    }
+  }
+
+  function render(s) {
+    if (!s) return;
+    renderHero(s);
+    renderCountdown(s);
+    renderPositions(s);
+    renderEvents(s);
+    renderFooter(s, Date.now());
+
+    // 상태 결정
+    if (s.active) {
+      setStatus("", "매매중");
+    } else if (s.sold) {
+      setStatus("idle", "매도완료");
+    } else {
+      setStatus("idle", "대기");
+    }
+  }
+
+  // ═══════════════════ Fetch 루프 ═══════════════════
+  async function fetchAndRender() {
+    const cfg = loadCfg();
+    if (!cfg.user || !cfg.repo) {
+      document.getElementById("setup-modal").style.display = "flex";
+      return;
+    }
+    const url = `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/${cfg.branch}/mobile/state.json?_=${Date.now()}`;
+    try {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) {
+        if (r.status === 404) {
+          setStatus("offline", "state.json 없음");
+        } else {
+          setStatus("offline", `에러 ${r.status}`);
+        }
+        return;
+      }
+      const s = await r.json();
+      render(s);
+    } catch (e) {
+      setStatus("offline", "오프라인");
+      console.error("[fetch error]", e);
+    }
+  }
+
+  // 카운트다운만 1초마다 갱신
+  setInterval(() => {
+    const timerEl = document.getElementById("timer");
+    if (timerEl.textContent && timerEl.textContent !== "장 마감" && timerEl.textContent !== "─") {
+      const parts = timerEl.textContent.split(":");
+      if (parts.length === 3) {
+        let h = +parts[0], m = +parts[1], s = +parts[2];
+        if (h === 0 && m === 0 && s === 0) return;
+        s--;
+        if (s < 0) { s = 59; m--; }
+        if (m < 0) { m = 59; h--; }
+        if (h < 0) { document.getElementById("timer").textContent = "장 마감"; return; }
+        timerEl.textContent =
+          `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      }
+    }
+  }, 1000);
+
+  // 데이터 폴링
+  fetchAndRender();
+  setInterval(fetchAndRender, POLL_INTERVAL);
+
+  // PWA 등록
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js").catch(() => {});
+  }
+  </script>
+</body>
+</html>
