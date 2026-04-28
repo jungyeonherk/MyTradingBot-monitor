@@ -1,7 +1,7 @@
 {
   "version": "2.1",
-  "ts": "2026-04-29T00:44:47.061481",
-  "ts_human": "2026-04-29 00:44:47",
+  "ts": "2026-04-29T00:45:17.465660",
+  "ts_human": "2026-04-29 00:45:17",
   "active": false,
   "sold": false,
   "mode": "모의투자",
@@ -25,7 +25,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 50712,
+    "secs_left": 50682,
     "passed": false
   },
   "target_reached_time": "",
