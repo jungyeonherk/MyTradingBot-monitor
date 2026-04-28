@@ -1,10 +1,11 @@
 {
-  "stage": "fetch_codes",
-  "progress": 0,
-  "total": 0,
-  "percent": 0,
-  "message": "종목 리스트 가져오는 중",
-  "ts": "2026-04-29T02:12:46.359237",
-  "ts_human": "02:12:46",
+  "stage": "naver_scan",
+  "progress": 200,
+  "total": 2604,
+  "percent": 7.7,
+  "message": "진행 7.7% — 후보 16",
+  "ts": "2026-04-29T02:13:36.518469",
+  "ts_human": "02:13:36",
+  "candidates": 16,
   "cmd_id": "cmd-1777396109173"
 }
