@@ -1,15 +1,15 @@
 {
   "version": "1.2",
-  "ts": "2026-04-29T02:07:36.700150",
-  "ts_human": "2026-04-29 02:07:36",
+  "ts": "2026-04-29T02:07:41.893825",
+  "ts_human": "2026-04-29 02:07:41",
   "today": "2026-04-29",
   "active": false,
   "sold": false,
   "mode": "모의투자",
-  "account": "****6411",
+  "account": "",
   "date": "2026-04-29",
   "summary": {
-    "invest": 100000000000,
+    "invest": 0,
     "buy_amt": 0,
     "cur_amt": 0,
     "pl": 0,
@@ -26,7 +26,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 45743,
+    "secs_left": 45738,
     "passed": false
   },
   "target_reached_time": "",
@@ -203,18 +203,18 @@
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 0,
-      "last_push_secs_ago": 0,
+      "push_count": 1,
+      "last_push_secs_ago": 5,
       "github_ok": true
     },
     "trade_bot": {
-      "state_file_exists": true,
-      "state_file_age_secs": 1341,
-      "state_today": true,
+      "state_file_exists": false,
+      "state_file_age_secs": null,
+      "state_today": false,
       "log_file_exists": true,
-      "log_file_age_secs": 1888,
+      "log_file_age_secs": 1893,
       "watchlist_exists": true,
-      "watchlist_age_secs": 2534,
+      "watchlist_age_secs": 2539,
       "bot_alive": false,
       "log_event_count": 212,
       "today_event_count": 3
@@ -235,8 +235,8 @@
       {
         "key": "active",
         "label": "매매 활성화",
-        "done": true,
-        "detail": "대기중"
+        "done": false,
+        "detail": ""
       },
       {
         "key": "buying",
