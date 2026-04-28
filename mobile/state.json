@@ -1,7 +1,7 @@
 {
   "version": "1.2",
-  "ts": "2026-04-29T01:35:43.230984",
-  "ts_human": "2026-04-29 01:35:43",
+  "ts": "2026-04-29T01:36:08.312225",
+  "ts_human": "2026-04-29 01:36:08",
   "today": "2026-04-29",
   "active": false,
   "sold": false,
@@ -26,7 +26,7 @@
   "force_liquidate": {
     "hour": 14,
     "minute": 50,
-    "secs_left": 47656,
+    "secs_left": 47631,
     "passed": false
   },
   "target_reached_time": "",
@@ -167,6 +167,17 @@
   ],
   "events": [
     {
+      "ts": "2026-04-29T01:36:08.129064",
+      "time": "01:36:08",
+      "event": "SESSION_START",
+      "code": "",
+      "name": "",
+      "qty": 0,
+      "price": 0,
+      "pnl": 0,
+      "reason": ""
+    },
+    {
       "ts": "2026-04-29T01:15:23.220407",
       "time": "01:15:23",
       "event": "SESSION_START",
@@ -192,8 +203,8 @@
   "system_status": {
     "sync": {
       "running": true,
-      "push_count": 3,
-      "last_push_secs_ago": 30,
+      "push_count": 4,
+      "last_push_secs_ago": 25,
       "github_ok": true
     },
     "trade_bot": {
@@ -201,12 +212,12 @@
       "state_file_age_secs": null,
       "state_today": false,
       "log_file_exists": true,
-      "log_file_age_secs": 1220,
+      "log_file_age_secs": 0,
       "watchlist_exists": true,
-      "watchlist_age_secs": 621,
-      "bot_alive": false,
-      "log_event_count": 211,
-      "today_event_count": 2
+      "watchlist_age_secs": 646,
+      "bot_alive": true,
+      "log_event_count": 212,
+      "today_event_count": 3
     },
     "stages": [
       {
